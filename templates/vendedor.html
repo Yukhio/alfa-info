@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post" enctype="multipart/form-data" class="mb-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label text-white">Nombre</label>
+                    <input type="text" placeholder="Escribe el nombre" class="form-control" id="nombre" name="nombre" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="fecha_nacimiento" class="form-label text-white">Fecha de nacimiento</label>
+                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="sexo" class="form-label text-white">Sexo</label>
+                    <select class="form-control" id="sexo" name="sexo" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="puesto" class="form-label text-white">Puesto</label>
+                    <input type="text" placeholder="Ej. Gerente" class="form-control" id="puesto" name="puesto" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="curp" class="form-label text-white">CURP</label>
+                    <input type="text" class="form-control" id="curp" name="curp" placeholder="CURP" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="telefono" class="form-label text-white">Teléfono</label>
+                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="10 dígitos" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="correo" class="form-label text-white">Correo electrónico</label>
+                <input type="email" class="form-control" id="correo" name="correo" placeholder="ejemplo@correo.com" required>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="foto" class="form-label text-white">Fotografía</label>
+            <input type="file" class="form-control" id="foto" name="foto" accept="image/*" required>
+            <div id="previewContainer" class="d-flex flex-wrap gap-2 mt-2"></div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Registrar persona</button>
+</form>
+
+<button class="btn btn-outline-secondary mb-3 form-label text-white" id="togglePersonas">Mostrar/Ocultar registros</button>
+
+<div class="row d-none" id="personas">
+    {% for persona in personas %}
+    <div class="col-sm-6 col-md-4 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('uploads', filename=persona.foto) }}" class="card-img-top"
+                 style="height: 250px; object-fit: cover;" alt="Foto de {{ persona.nombre }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ persona.nombre }}</h5>
+                <p class="card-text">
+                    <strong>Puesto:</strong> {{ persona.puesto }}<br>
+                    <strong>CURP:</strong> {{ persona.curp }}<br>
+                    <strong>Tel:</strong> {{ persona.telefono }}<br>
+                    <strong>Email:</strong> {{ persona.correo }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.getElementById('togglePersonas').addEventListener('click', function () {
+        document.getElementById('personas').classList.toggle('d-none');
+    });
+
+    const fotoInput = document.getElementById('foto');
+    const previewContainer = document.getElementById('previewContainer');
+
+    fotoInput.addEventListener('change', function () {
+        const file = fotoInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewContainer.innerHTML = `
+                    <img src="${e.target.result}" class="img-thumbnail" style="max-height: 200px;" alt="Preview">
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row fade-in">
+    {% for persona in personas %}
+    {% set nacimiento = persona.fecha_nacimiento | todatetime %}
+    {% set hoy = now() %}
+    {% set edad = hoy.year - nacimiento.year - ((hoy.month, hoy.day) < (nacimiento.month, nacimiento.day)) %}
+
+    {% set cumple_este_anio = nacimiento.replace(year=hoy.year) %}
+    {% if cumple_este_anio < hoy %}
+        {% set cumple_este_anio = cumple_este_anio.replace(year=hoy.year + 1) %}
+    {% endif %}
+    {% set dias_restantes = (cumple_este_anio - hoy).days %}
+    {% set meses = dias_restantes // 30 %}
+    {% set dias = dias_restantes % 30 %}
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('uploads', filename=persona.foto) }}" class="card-img-top"
+                style="height: 300px; object-fit: cover;" alt="{{ persona.nombre }}">
+            <div class="card-body">
+                <h5 class="fw-bold">{{ persona.nombre }}</h5>
+                <p class="card-text">
+                    <strong>Edad:</strong> {{ edad }} años<br>
+                    <strong>Próximo cumpleaños:</strong>
+                    {% if meses == 0 and dias == 0 %}
+                        🎉 Hoy 🎉
+                    {% else %}
+                        en {{ meses }} mes{{ 'es' if meses != 1 }} y {{ dias }} día{{ 's' if dias != 1 }}
+                    {% endif %}
+                    <br>
+                    <strong>Teléfono:</strong> {{ persona.telefono }}<br>
+                    <strong>CURP:</strong> {{ persona.curp }}<br>
+                    <strong>Correo:</strong> {{ persona.correo }}<br>
+                    <strong>Puesto:</strong> {{ persona.puesto }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
