@@ -19,7 +19,12 @@
             <img src="{{ url_for('uploads', filename=persona.foto) }}" class="card-img-top"
                 style="height: 300px; object-fit: cover;" alt="{{ persona.nombre }}">
             <div class="card-body">
-                <h5 class="fw-bold">{{ persona.nombre }}</h5>
+                <h5 class="fw-bold">
+                    {{ persona.nombre }}
+                    {% if hoy.month == nacimiento.month and hoy.day == nacimiento.day %}
+                        🎂
+                    {% endif %}
+                </h5>
                 <p class="card-text">
                     <strong>Edad:</strong> {{ edad }} años<br>
                     <strong>Próximo cumpleaños:</strong>

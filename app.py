@@ -40,10 +40,13 @@ def guardar_catalogo(data):
 
 @app.route('/')
 def vista_cliente():
-    personas = cargar_catalogo()
-    visibles = [p for p in personas if p['visible']]
-    return render_template('cliente.html', personas=visibles)
+    catalogo = cargar_catalogo()
+    visibles = [p for p in catalogo if p.get('visible', False)]
 
+    # Ordenar alfabéticamente por nombre (sin importar mayúsculas/minúsculas)
+    visibles.sort(key=lambda p: p['nombre'].lower())
+
+    return render_template('cliente.html', personas=visibles)
 
 
 @app.route('/login', methods=['GET', 'POST'])
