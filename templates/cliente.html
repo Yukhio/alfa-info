@@ -27,7 +27,7 @@
                 </h5>
                 <p class="card-text">
                     <strong>Edad:</strong> {{ edad }} años<br>
-                    <strong>Próximo cumpleaños:</strong>
+                    <strong>Próximo cumpleaños:</strong> {{ cumple_este_anio.strftime('%d/%m/%Y') }} —
                     {% if meses == 0 and dias == 0 %}
                         🎉 Hoy 🎉
                     {% else %}
