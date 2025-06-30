@@ -22,6 +22,8 @@
                         <option value="">Selecciona una opción</option>
                         <option value="Masculino">Masculino</option>
                         <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                        <option value="Prefiero no decirlo">Prefiero no decirlo</option>
                     </select>
                 </div>
                 <div class="col-md-6">
@@ -63,21 +65,137 @@
     <div class="col-sm-6 col-md-4 mb-4">
         <div class="card h-100">
             <img src="{{ url_for('uploads', filename=persona.foto) }}" class="card-img-top"
-                style="height: 250px; object-fit: cover;" alt="Foto de {{ persona.nombre }}">
+                style="width: 100%; height: auto;" alt="Foto de {{ persona.nombre }}">
             <div class="card-body">
                 <h5 class="card-title">{{ persona.nombre }}</h5>
                 <p class="card-text">
                     <strong>Puesto:</strong> {{ persona.puesto }}<br>
-                    <strong>CURP:</strong> {{ persona.curp }}<br>
-                    <strong>Tel:</strong> {{ persona.telefono }}<br>
+                    <strong>Teléfono:</strong> {{ persona.telefono }}<br>
                     <strong>Email:</strong> {{ persona.correo }}
                 </p>
+                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                    data-bs-target="#editarModal{{ persona.id }}">Editar datos usuario</button>
+                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#eliminarModal{{ persona.id }}">Eliminar usuario</button>
+
+                <!-- Modal Eliminar -->
+                <div class="modal fade" id="eliminarModal{{ persona.id }}" tabindex="-1"
+                    aria-labelledby="eliminarLabel{{ persona.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="{{ url_for('eliminar_persona', persona_id=persona.id) }}" method="POST">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="eliminarLabel{{ persona.id }}">Eliminar persona</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Estás seguro que deseas eliminar a <strong>{{ persona.nombre }}</strong>?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar -->
+    <div class="modal fade" id="editarModal{{ persona.id }}" tabindex="-1" aria-labelledby="modalLabel{{ persona.id }}"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <form action="{{ url_for('editar_persona', persona_id=persona.id) }}" method="POST"
+                    enctype="multipart/form-data" class="p-3">
+                    <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title fw-semibold" id="modalLabel{{ persona.id }}">Editar a {{ persona.nombre
+                            }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body pt-0">
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" name="nombre" class="form-control" value="{{ persona.nombre }}"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha Nacimiento</label>
+                                <input type="date" name="fecha_nacimiento" class="form-control"
+                                    value="{{ persona.fecha_nacimiento }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Sexo</label>
+                                <select class="form-select" name="sexo" required>
+                                    <option value="Masculino" {% if persona.sexo=='Masculino' %}selected{% endif %}>
+                                        Masculino</option>
+                                    <option value="Femenino" {% if persona.sexo=='Femenino' %}selected{% endif %}>
+                                        Femenino</option>
+                                    <option value="Otro" {% if persona.sexo=='Otro' %}selected{% endif %}>Otro</option>
+                                    <option value="Prefiero no decirlo"
+                                        {% if persona.sexo=='Prefiero no decirlo' %}selected{% endif %}>
+                                        Prefiero no decirlo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Puesto</label>
+                                <input type="text" name="puesto" class="form-control" value="{{ persona.puesto }}"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Correo</label>
+                                <input type="email" name="correo" class="form-control" value="{{ persona.correo }}"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Teléfono</label>
+                                <input type="tel" name="telefono" class="form-control" value="{{ persona.telefono }}"
+                                    required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Foto actual</label><br>
+                                <img src="{{ url_for('uploads', filename=persona.foto) }}" alt="Foto actual"
+                                    class="img-thumbnail mb-2" style="max-height: 120px;">
+                                <input type="file" name="nueva_foto" class="form-control" accept="image/*">
+                            </div>
+                            {% if persona.fotos_previas %}
+                            <div class="mt-3">
+                                <label class="form-label">Historial de fotos</label>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for foto in persona.fotos_previas %}
+                                    <div class="position-relative" style="width: 100px;">
+                                        <label class="w-100 text-center" style="cursor: pointer;">
+                                            <input type="radio" name="foto_historial" value="{{ foto }}" class="d-none">
+                                            <img src="{{ url_for('uploads', filename=foto) }}" class="img-thumbnail"
+                                                style="height: 100px; object-fit: cover;">
+                                        </label>
+                                        <button type="button"
+                                            class="btn btn-sm btn-danger btn-close p-1 position-absolute top-0 end-0 eliminar-foto-btn"
+                                            data-foto="{{ foto }}" data-id="{{ persona.id }}"></button>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="submit" class="btn btn-success px-4">Guardar cambios</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.getElementById('togglePersonas').addEventListener('click', function () {
         document.getElementById('personas').classList.toggle('d-none');
@@ -86,17 +204,41 @@
     const fotoInput = document.getElementById('foto');
     const previewContainer = document.getElementById('previewContainer');
 
-    fotoInput.addEventListener('change', function () {
-        const file = fotoInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                previewContainer.innerHTML = `
-                    <img src="${e.target.result}" class="img-thumbnail" style="max-height: 200px;" alt="Preview">
-                `;
-            };
-            reader.readAsDataURL(file);
-        }
+    if (fotoInput) {
+        fotoInput.addEventListener('change', function () {
+            const file = fotoInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewContainer.innerHTML = `<img src="${e.target.result}" class="img-thumbnail" style="max-height: 200px;" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    document.querySelectorAll('.eliminar-foto-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const personaId = this.getAttribute('data-id');
+            const fotoNombre = this.getAttribute('data-foto');
+
+            Swal.fire({
+                title: '¿Eliminar esta foto?',
+                html: `<img src="/uploads/${fotoNombre}" class="img-thumbnail" style="max-height:200px;">`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/eliminar_foto_historial/${personaId}/${fotoNombre}`, {
+                        method: 'POST'
+                    }).then(() => location.reload());
+                }
+            });
+        });
     });
 </script>
 {% endblock %}
