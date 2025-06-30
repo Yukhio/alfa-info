@@ -6,7 +6,8 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="nombre" class="form-label text-white">Nombre</label>
-                    <input type="text" placeholder="Escribe el nombre" class="form-control" id="nombre" name="nombre" required>
+                    <input type="text" placeholder="Escribe el nombre" class="form-control" id="nombre" name="nombre"
+                        required>
                 </div>
                 <div class="col-md-6">
                     <label for="fecha_nacimiento" class="form-label text-white">Fecha de nacimiento</label>
@@ -25,24 +26,22 @@
                 </div>
                 <div class="col-md-6">
                     <label for="puesto" class="form-label text-white">Puesto</label>
-                    <input type="text" placeholder="Ej. Gerente" class="form-control" id="puesto" name="puesto" required>
+                    <input type="text" placeholder="Ej. Gerente" class="form-control" id="puesto" name="puesto"
+                        required>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="curp" class="form-label text-white">CURP</label>
-                    <input type="text" class="form-control" id="curp" name="curp" placeholder="CURP" required>
+                    <label for="correo" class="form-label text-white">Correo electrónico</label>
+                    <input type="email" class="form-control" id="correo" name="correo" placeholder="ejemplo@correo.com"
+                        required>
                 </div>
                 <div class="col-md-6">
                     <label for="telefono" class="form-label text-white">Teléfono</label>
-                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="10 dígitos" required>
+                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="10 dígitos"
+                        required>
                 </div>
-            </div>
-
-            <div class="mb-3">
-                <label for="correo" class="form-label text-white">Correo electrónico</label>
-                <input type="email" class="form-control" id="correo" name="correo" placeholder="ejemplo@correo.com" required>
             </div>
         </div>
 
@@ -56,14 +55,15 @@
     <button type="submit" class="btn btn-primary mt-3">Registrar persona</button>
 </form>
 
-<button class="btn btn-outline-secondary mb-3 form-label text-white" id="togglePersonas">Mostrar/Ocultar registros</button>
+<button class="btn btn-outline-secondary mb-3 form-label text-white" id="togglePersonas">Mostrar/Ocultar
+    registros</button>
 
 <div class="row d-none" id="personas">
     {% for persona in personas %}
     <div class="col-sm-6 col-md-4 mb-4">
         <div class="card h-100">
             <img src="{{ url_for('uploads', filename=persona.foto) }}" class="card-img-top"
-                 style="height: 250px; object-fit: cover;" alt="Foto de {{ persona.nombre }}">
+                style="height: 250px; object-fit: cover;" alt="Foto de {{ persona.nombre }}">
             <div class="card-body">
                 <h5 class="card-title">{{ persona.nombre }}</h5>
                 <p class="card-text">

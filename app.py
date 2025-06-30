@@ -85,7 +85,6 @@ def vista_vendedor():
             'fecha_nacimiento': data['fecha_nacimiento'],
             'sexo': data['sexo'],
             'puesto': data['puesto'],
-            'curp': data['curp'],
             'telefono': data['telefono'],
             'correo': data['correo'],
             'foto': filename,
