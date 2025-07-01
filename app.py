@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 import os
 import json
 from uuid import uuid4
-from datetime import datetime
+from datetime import datetime, date
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
@@ -41,14 +41,14 @@ def cargar_catalogo():
 
 def guardar_catalogo(data):
     with open(CATALOGO_PATH, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2)
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
 
 @app.route('/')
 def vista_cliente():
     catalogo = cargar_catalogo()
     visibles = [p for p in catalogo if p.get('visible', False)]
-    visibles.sort(key=lambda p: p['nombre'].lower())
+    visibles.sort(key=lambda p: dias_para_cumple(datetime.strptime(p['fecha_nacimiento'], '%Y-%m-%d').date()))
     return render_template('cliente.html', personas=visibles)
 
 
@@ -175,6 +175,12 @@ def eliminar_foto_historial(persona_id, foto_nombre):
     flash('Foto eliminada del historial.', 'success')
     return redirect(url_for('vista_vendedor'))
 
+def dias_para_cumple(fecha_nac):
+    hoy = date.today()
+    cumple = fecha_nac.replace(year=hoy.year)
+    if cumple < hoy:
+        cumple = cumple.replace(year=hoy.year + 1)
+    return (cumple - hoy).days
 
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)

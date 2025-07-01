@@ -8,9 +8,11 @@
         cumple_este_anio=nacimiento.replace(year=hoy.year) %} {% if cumple_este_anio < hoy %} {% set
         cumple_este_anio=cumple_este_anio.replace(year=hoy.year + 1) %} {% endif %} {% set
         dias_restantes=(cumple_este_anio - hoy).days %} {% set meses=dias_restantes // 30 %} {% set dias=dias_restantes
-        % 30 %} <div class="col-md-4 mb-4">
+        % 30 %} {% set cumple_mes=nacimiento.month==hoy.month %} <div
+        class="col-md-4 mb-4 {{ 'cumple-mes' if cumple_mes }}">
         <div class="card h-100">
-            <img src="{{ url_for('uploads', filename=persona.foto) }}" class="card-img-top object-fit-contain" style="height: 300px;" alt="{{ persona.nombre }}">
+            <img src="{{ url_for('uploads', filename=persona.foto) }}" class="card-img-top object-fit-contain"
+                style="height: 300px;" alt="{{ persona.nombre }}">
             <div class="card-body">
                 <h5 class="fw-bold">
                     {{ persona.nombre }}
@@ -36,4 +38,18 @@
 </div>
 {% endfor %}
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+    window.addEventListener('load', () => {
+        const cumpleCards = document.querySelectorAll('.cumple-mes');
+        if (cumpleCards.length) {
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+        }
+    });
+</script>
 {% endblock %}
