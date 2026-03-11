@@ -10,8 +10,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.secret_key = 'super_secret_key'
 
 CATALOGO_PATH = 'data/catalogo.json'
-USUARIO = 'hcryztel'
-CLAVE = '123'
+USUARIOS_PATH = 'data/usuarios.json'
 
 
 @app.route('/uploads/<path:filename>')
@@ -44,6 +43,21 @@ def guardar_catalogo(data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
+def cargar_usuarios():
+    if not os.path.exists(USUARIOS_PATH):
+        return []
+    try:
+        with open(USUARIOS_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except json.JSONDecodeError:
+        return []
+
+
+def guardar_usuarios(data):
+    with open(USUARIOS_PATH, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+
 @app.route('/')
 def vista_cliente():
     catalogo = cargar_catalogo()
@@ -57,8 +71,11 @@ def login():
     if request.method == 'POST':
         usuario = request.form['usuario']
         clave = request.form['clave']
-        if usuario == USUARIO and clave == CLAVE:
+        usuarios = cargar_usuarios()
+        usuario_valido = any(u['usuario'] == usuario and u['contraseña'] == clave for u in usuarios)
+        if usuario_valido:
             session['vendedor'] = True
+            session['usuario_actual'] = usuario
             return redirect(url_for('vista_vendedor'))
         else:
             return render_template('login.html', error='Credenciales inválidas')
@@ -69,6 +86,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('vendedor', None)
+    session.pop('usuario_actual', None)
     return redirect(url_for('vista_cliente'))
 
 
@@ -104,7 +122,8 @@ def vista_vendedor():
         return redirect(url_for('vista_vendedor'))
 
     personas = cargar_catalogo()
-    return render_template('vendedor.html', personas=personas)
+    usuarios = cargar_usuarios()
+    return render_template('vendedor.html', personas=personas, usuarios=usuarios)
 
 
 @app.route('/editar/<persona_id>', methods=['POST'])
@@ -173,6 +192,41 @@ def eliminar_foto_historial(persona_id, foto_nombre):
 
     guardar_catalogo(personas)
     flash('Foto eliminada del historial.', 'success')
+    return redirect(url_for('vista_vendedor'))
+
+@app.route('/registrar_usuario', methods=['POST'])
+def registrar_usuario():
+    if 'vendedor' not in session:
+        return redirect(url_for('login'))
+    
+    nuevo_usuario = request.form['nuevo_usuario']
+    nueva_contraseña = request.form['nueva_contraseña']
+    
+    usuarios = cargar_usuarios()
+    
+    # Verificar si el usuario ya existe
+    if any(u['usuario'] == nuevo_usuario for u in usuarios):
+        flash('El usuario ya existe.', 'error')
+        return redirect(url_for('vista_vendedor'))
+    
+    usuarios.append({
+        'usuario': nuevo_usuario,
+        'contraseña': nueva_contraseña
+    })
+    
+    guardar_usuarios(usuarios)
+    flash('Usuario registrado exitosamente.', 'success')
+    return redirect(url_for('vista_vendedor'))
+
+@app.route('/eliminar_usuario/<usuario>', methods=['POST'])
+def eliminar_usuario(usuario):
+    if 'vendedor' not in session:
+        return redirect(url_for('login'))
+    
+    usuarios = cargar_usuarios()
+    usuarios = [u for u in usuarios if u['usuario'] != usuario]
+    guardar_usuarios(usuarios)
+    flash('Usuario eliminado correctamente.', 'success')
     return redirect(url_for('vista_vendedor'))
 
 def dias_para_cumple(fecha_nac):
