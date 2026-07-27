@@ -10,5 +10,299 @@
     "foto": "795ec17426284581b922531528b562aa_Profile picture.jpeg",
     "visible": true,
     "fotos_previas": []
+  },
+  {
+    "id": "0933debb7cf846698de9dde4e08053b8",
+    "nombre": "Alba Rocio Cadena Ibarra",
+    "fecha_nacimiento": "1990-06-19",
+    "sexo": "Femenino",
+    "puesto": "Gerencia de desarrollo",
+    "telefono": "33 4799 6807",
+    "correo": "alba.cadena@alfapcsmax.com",
+    "foto": "938ff7e9d3c04e4a84e8dd8444e0781b_IMG_4246.JPEG",
+    "fotos_previas": [
+      "938ff7e9d3c04e4a84e8dd8444e0781b_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "283697d251864ee59736ba9ac0e3b89e",
+    "nombre": "Cesar Gilbero Cendejas Hernández",
+    "fecha_nacimiento": "1995-02-21",
+    "sexo": "Masculino",
+    "puesto": "Coordinador jurídico",
+    "telefono": "314 146 2770",
+    "correo": "cesar.cendejas@alfapcsmax.com",
+    "foto": "3d4da5f14081449eb02b8c507a0f49b6_IMG_4246.JPEG",
+    "fotos_previas": [
+      "3d4da5f14081449eb02b8c507a0f49b6_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "38506d59770948bebfca3f11d77173f2",
+    "nombre": "Cryztel Torres Quiñonez",
+    "fecha_nacimiento": "2001-09-26",
+    "sexo": "Femenino",
+    "puesto": "Coordinador desarrollo de negocio",
+    "telefono": "314 147 6493",
+    "correo": "cryztel.torres@alfapcsmax.com",
+    "foto": "29747796b28d43438b13bd56cbb6a587_IMG_4246.JPEG",
+    "fotos_previas": [
+      "29747796b28d43438b13bd56cbb6a587_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "8f651447d780421787a8bfbda814be8e",
+    "nombre": "Enrique García Peña",
+    "fecha_nacimiento": "1993-10-15",
+    "sexo": "Masculino",
+    "puesto": "Dirección general",
+    "telefono": "314 122 1801",
+    "correo": "jesus.ortiz@alfapcsmax.com",
+    "foto": "d6f83c16798e433db8f6d80e196d51a9_IMG_4246.JPEG",
+    "fotos_previas": [
+      "d6f83c16798e433db8f6d80e196d51a9_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "887e32a36fbc4a8fbd83b1ff29521758",
+    "nombre": "Javier Bautista Silva",
+    "fecha_nacimiento": "1989-04-07",
+    "sexo": "Masculino",
+    "puesto": "Gerencia de gestión",
+    "telefono": "314 179 8223",
+    "correo": "javier.bautista@alfapcsmax.com",
+    "foto": "b4b4a3f243234bf9bcccf6b0ac3edf59_IMG_4246.JPEG",
+    "fotos_previas": [
+      "b4b4a3f243234bf9bcccf6b0ac3edf59_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "f313735f8238429a9a304c4eb6f79871",
+    "nombre": "Jesús Ortiz Estevez",
+    "fecha_nacimiento": "1970-02-24",
+    "sexo": "Masculino",
+    "puesto": "Coordinación de estrategia e innovación",
+    "telefono": "314 116 2950",
+    "correo": "jesus.ortiz@alfapcsmax.com",
+    "foto": "baf5f45b3f0342409be764e0ad9ff9a2_IMG_4246.JPEG",
+    "fotos_previas": [
+      "baf5f45b3f0342409be764e0ad9ff9a2_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "708c77edfa474553b84b5e03096f1f11",
+    "nombre": "Luis Fernando Vazquez Ornelas",
+    "fecha_nacimiento": "1980-10-06",
+    "sexo": "Masculino",
+    "puesto": "Programador fullstack",
+    "telefono": "312 145 4951",
+    "correo": "luisfer.vazquez@alfapcsmax.com",
+    "foto": "105e6d63b0774671bcd2016164b0b598_IMG_4246.JPEG",
+    "fotos_previas": [
+      "105e6d63b0774671bcd2016164b0b598_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "5bfb625ef32a468dae310c104291b84e",
+    "nombre": "Luis Francisco Barragán Flores",
+    "fecha_nacimiento": "1999-09-17",
+    "sexo": "Masculino",
+    "puesto": "Programador fullstack",
+    "telefono": "312 143 6823",
+    "correo": "luis.barragan@alfapcsmax.com",
+    "foto": "d6fa9b0f95f2484a9dfed9ff8774e46c_IMG_4246.JPEG",
+    "fotos_previas": [
+      "d6fa9b0f95f2484a9dfed9ff8774e46c_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "7acba1259c69486baa32a24b974cc63d",
+    "nombre": "María Fernanda García Reyes",
+    "fecha_nacimiento": "2005-06-25",
+    "sexo": "Femenino",
+    "puesto": "Diseñadpr gráfica",
+    "telefono": "3131134272",
+    "correo": "fernanda.garcia@alfapcsmax.com",
+    "foto": "d8d2bba6c8be4238899c5a45b5c7c36c_IMG_4246.JPEG",
+    "fotos_previas": [
+      "d8d2bba6c8be4238899c5a45b5c7c36c_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "49db2f43a8794bb69849eba8ee2abf99",
+    "nombre": "Monica Isabel Verdugo Mendoza",
+    "fecha_nacimiento": "1997-10-12",
+    "sexo": "Femenino",
+    "puesto": "Jefatura de centros virtuales de desarrollo de talento",
+    "telefono": "314 117 0900",
+    "correo": "monica.verdugo@alfapcsmax.com",
+    "foto": "72df2e46da2243e495d954a6125d28b1_IMG_4246.JPEG",
+    "fotos_previas": [
+      "72df2e46da2243e495d954a6125d28b1_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "4d8062d116d8445996f6902fae8f3c49",
+    "nombre": "Ruben Mora Jimenez",
+    "fecha_nacimiento": "1979-11-13",
+    "sexo": "Masculino",
+    "puesto": "Arquitecto de soluciones Cloud",
+    "telefono": "312 301 2390",
+    "correo": "ruben.mora@alfapcsmax.com",
+    "foto": "3ec0e60c01f444449bde8bced4f541c6_IMG_4246.JPEG",
+    "fotos_previas": [
+      "3ec0e60c01f444449bde8bced4f541c6_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "597d5cd83f954bbdad54b940c764e8ac",
+    "nombre": "Salvador Campos Reyes",
+    "fecha_nacimiento": "2001-03-15",
+    "sexo": "Masculino",
+    "puesto": "Programador fullstack",
+    "telefono": "312 201 0699",
+    "correo": "salvador.campos@alfapcsmax.com",
+    "foto": "f02615248db74bbf873d68c47574cb25_IMG_4246.JPEG",
+    "fotos_previas": [
+      "f02615248db74bbf873d68c47574cb25_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "a17fd173d5f44796a9218f8494a82654",
+    "nombre": "Sandra Montserrat Olivera García",
+    "fecha_nacimiento": "2003-06-27",
+    "sexo": "Femenino",
+    "puesto": "Auxiliar de proyectos",
+    "telefono": "314 102 1959",
+    "correo": "montserrat.olivera@alfapcsmax.com",
+    "foto": "e937016cb59d4fb4bdfcf56147f3e70e_IMG_4246.JPEG",
+    "fotos_previas": [
+      "e937016cb59d4fb4bdfcf56147f3e70e_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "bb1595404d434576a1a0fbc56a839b57",
+    "nombre": "Tairi Raquel Jaimes Salazar",
+    "fecha_nacimiento": "2000-01-02",
+    "sexo": "Femenino",
+    "puesto": "Programador fullstack",
+    "telefono": "312 194 3191",
+    "correo": "tairi.jaimes@alfapcsmax.com",
+    "foto": "2f7a00ff0f7b410f9645db535d814dd7_IMG_4246.JPEG",
+    "fotos_previas": [
+      "2f7a00ff0f7b410f9645db535d814dd7_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "59bec1f3582d46a9ae7baeb06b913422",
+    "nombre": "Ulises Rafael Gutiérrez Flores",
+    "fecha_nacimiento": "2000-10-24",
+    "sexo": "Masculino",
+    "puesto": "Programador apps",
+    "telefono": "312 174 2844",
+    "correo": "ulises.gutierrez@alfapcsmax.com",
+    "foto": "2e9fc2e95ed64603b42b309ff8207932_IMG_4246.JPEG",
+    "fotos_previas": [
+      "2e9fc2e95ed64603b42b309ff8207932_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "4e823b63cb1c4ae9b47b0e4ca21bb151",
+    "nombre": "Verónica Guerrero López",
+    "fecha_nacimiento": "1975-06-05",
+    "sexo": "Femenino",
+    "puesto": "Coordinador jurídico",
+    "telefono": "312 100 7204",
+    "correo": "veronica.guerrero@alfapcsmax.com",
+    "foto": "250a3d80fc5b4e05917df7fccf1d4b52_IMG_4246.JPEG",
+    "fotos_previas": [
+      "250a3d80fc5b4e05917df7fccf1d4b52_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "1a07f334a32341e78a42e26957bd651e",
+    "nombre": "Susejh Anette Ortiz Toledo",
+    "fecha_nacimiento": "2001-01-04",
+    "sexo": "Femenino",
+    "puesto": "Creador de contenido",
+    "telefono": "3143143145",
+    "correo": "a@a.com",
+    "foto": "f7c9964edcac4ab88857297f97ed2847_IMG_4246.JPEG",
+    "fotos_previas": [
+      "f7c9964edcac4ab88857297f97ed2847_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "172c43e181b54912935bc4187f19135a",
+    "nombre": "Cosette Enif Ortiz Toledo",
+    "fecha_nacimiento": "2003-08-02",
+    "sexo": "Femenino",
+    "puesto": "Coordinador de contenido",
+    "telefono": "3143143124",
+    "correo": "a@a.com",
+    "foto": "41d1e5f5b48a40d0ac601e59c2f19aa2_IMG_4246.JPEG",
+    "fotos_previas": [
+      "41d1e5f5b48a40d0ac601e59c2f19aa2_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "2cb58f7584bb4ca98450aae0de93f905",
+    "nombre": "Gerardo Osorio López",
+    "fecha_nacimiento": "1983-09-16",
+    "sexo": "Masculino",
+    "puesto": "Programador fullstack",
+    "telefono": "312 123 2012",
+    "correo": "gosorio@alfapcsmax.com",
+    "foto": "09806d39740546c598f8734b0a2478a9_IMG_4246.JPEG",
+    "fotos_previas": [
+      "09806d39740546c598f8734b0a2478a9_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "2b2317c9026c47b594119285c62ecdb7",
+    "nombre": "José Claudio Jimenez Obregón",
+    "fecha_nacimiento": "1992-04-02",
+    "sexo": "Masculino",
+    "puesto": "Programador fullstack",
+    "telefono": "312 233 8394",
+    "correo": "claudio.jimenez@alfapcsmax.com",
+    "foto": "85114ccd6bcf4f85b4c664019c4c22f9_IMG_4246.JPEG",
+    "fotos_previas": [
+      "85114ccd6bcf4f85b4c664019c4c22f9_IMG_4246.JPEG"
+    ],
+    "visible": true
+  },
+  {
+    "id": "dc736546b5954f98ba8a5116d7015804",
+    "nombre": "Lourdes Isabel Aguilar Gutierrez",
+    "fecha_nacimiento": "1991-04-17",
+    "sexo": "Femenino",
+    "puesto": "Jefatura de análisis",
+    "telefono": "312 116 6718",
+    "correo": "lourdes.aguilar@alfapcsmax.com",
+    "foto": "eab84e6d0ff5488bb1228b4f7162279f_IMG_4246.JPEG",
+    "fotos_previas": [
+      "eab84e6d0ff5488bb1228b4f7162279f_IMG_4246.JPEG"
+    ],
+    "visible": true
   }
 ]
