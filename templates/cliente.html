@@ -18,10 +18,10 @@
         height: 100%;
         overflow: hidden;
         opacity: 0;
-        background: rgba(255, 255, 255, 0.98);
-        border: 1px solid rgba(15, 23, 42, 0.08);
+        background: var(--tema-card-fondo, rgba(255, 255, 255, 0.98));
+        border: 1px solid var(--tema-borde, rgba(15, 23, 42, 0.08));
         border-radius: 18px;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.06);
+        box-shadow: var(--tema-sombra, 0 10px 30px rgba(15, 23, 42, 0.12)), 0 2px 8px rgba(15, 23, 42, 0.06);
         clip-path: inset(0 0 100% 0 round 18px);
         filter: saturate(0.2) brightness(1.15);
         transform: translateY(25px) scale(0.97);
@@ -39,7 +39,7 @@
 
     .directorio-personal .persona-card:hover {
         transform: translateY(-7px);
-        border-color: rgba(0, 117, 120, 0.25);
+        border-color: color-mix(in srgb, var(--tema-acento) 40%, var(--tema-borde) 60%);
         box-shadow: 0 20px 42px rgba(15, 23, 42, 0.18), 0 5px 12px rgba(15, 23, 42, 0.08);
     }
 
@@ -52,7 +52,7 @@
         z-index: 4;
         width: 100%;
         height: 5px;
-        background: linear-gradient(90deg, #00666b 0%, #00999f 50%, #003f43 100%);
+        background: linear-gradient(90deg, var(--tema-primario, #00666b) 0%, var(--tema-acento, #00b3a6) 50%, var(--tema-secundario, #003f43) 100%);
     }
 
     /* BRILLO DURANTE LA ANIMACIÓN */
@@ -80,7 +80,7 @@
         position: relative;
         height: 300px;
         overflow: hidden;
-        background: radial-gradient(circle at top, #f8fafc 0%, #e9eef2 100%);
+        background: radial-gradient(circle at top, color-mix(in srgb, var(--tema-card-fondo) 85%, white 15%) 0%, color-mix(in srgb, var(--tema-card-fondo) 70%, #e9eef2 30%) 100%);
     }
 
     .directorio-personal .persona-foto {
@@ -116,7 +116,7 @@
 
     .directorio-personal .persona-nombre {
         margin: 0;
-        color: #18202b;
+        color: var(--tema-texto, #18202b);
         font-size: 1.08rem;
         font-weight: 750;
         line-height: 1.3;
@@ -131,9 +131,9 @@
         margin-top: 9px;
         padding: 6px 11px;
         overflow: hidden;
-        color: #00666b;
-        background: rgba(0, 117, 120, 0.09);
-        border: 1px solid rgba(0, 117, 120, 0.12);
+        color: var(--tema-primario, #00666b);
+        background: color-mix(in srgb, var(--tema-primario, #00666b) 8%, white 92%);
+        border: 1px solid color-mix(in srgb, var(--tema-primario, #00666b) 12%, var(--tema-borde, rgba(0, 0, 0, 0.06)) 88%);
         border-radius: 50px;
         font-size: 0.8rem;
         font-weight: 650;
@@ -146,7 +146,7 @@
         width: 100%;
         height: 1px;
         margin: 15px 0 12px;
-        background: linear-gradient(90deg, rgba(0, 117, 120, 0.35), rgba(148, 163, 184, 0.16), transparent);
+        background: linear-gradient(90deg, color-mix(in srgb, var(--tema-primario, #00666b) 45%, transparent 55%), rgba(148, 163, 184, 0.12), transparent);
     }
 
     /* INFORMACIÓN */
@@ -171,9 +171,9 @@
         justify-content: center;
         width: 31px;
         height: 31px;
-        color: #00666b;
-        background: #f0f7f7;
-        border: 1px solid rgba(0, 117, 120, 0.1);
+        color: var(--tema-primario, #00666b);
+        background: var(--tema-icono-fondo, #f0f7f7);
+        border: 1px solid color-mix(in srgb, var(--tema-primario, #00666b) 10%, var(--tema-borde, rgba(0, 0, 0, 0.06)) 90%);
         border-radius: 9px;
         font-size: 0.88rem;
         line-height: 1;
@@ -283,6 +283,534 @@
         100% {
             left: 160%;
             opacity: 0;
+        }
+    }
+
+    /* COLLAPSED VIEW: mostrar solo nombre, puesto y próximo cumpleaños */
+    .persona-summary {
+        padding: 10px 0 8px;
+        z-index: 6;
+    }
+
+    /* En estado colapsado: ocultar el detalle, pero mostrar la foto y el resumen superior */
+    .persona-card.collapsed .persona-info {
+        display: none !important;
+    }
+
+    .persona-card.collapsed .persona-divider {
+        display: none !important;
+    }
+
+    .persona-card.collapsed .persona-nombre {
+        margin-bottom: 6px;
+    }
+
+    .persona-card .card-actions {
+        padding-top: 8px;
+    }
+
+    /* =========================================================
+   MODAL ESTILO CARTA COLECCIONABLE
+   ========================================================= */
+    .modal-pokemon {
+        --carta-color-principal: #73b938;
+        --carta-color-secundario: #dff59c;
+        --carta-color-oscuro: #3f6f22;
+        --carta-borde: #d6d6d6;
+        --carta-fondo: #f5f7f7;
+    }
+
+    .modal-pokemon .modal-dialog {
+        width: min(94vw, 430px);
+        max-width: 430px;
+        margin-right: auto;
+        margin-left: auto;
+        perspective: 1400px;
+    }
+
+    .modal-pokemon .modal-content {
+        position: relative;
+        overflow: visible;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        border-radius: 22px;
+        box-shadow: none;
+    }
+
+    /* CARTA */
+    .modal-pokemon .pokemon-card {
+        position: relative;
+        width: 100%;
+        padding: 13px;
+        overflow: hidden;
+        color: #151b16;
+        background: radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.9), transparent 22%), radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.38), transparent 30%), linear-gradient(145deg, var(--carta-color-secundario), var(--carta-color-principal));
+        border: 9px solid var(--carta-borde);
+        border-radius: 23px;
+        box-shadow: 0 28px 65px rgba(0, 0, 0, 0.42), inset 0 0 0 2px rgba(255, 255, 255, 0.8);
+        transform-origin: center center;
+    }
+
+    /* Textura interior */
+    .modal-pokemon .pokemon-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.18;
+        background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.35) 0, rgba(255, 255, 255, 0.35) 1px, transparent 1px, transparent 7px);
+    }
+
+    /* Brillo holográfico */
+    .modal-pokemon .pokemon-card::after {
+        content: "";
+        position: absolute;
+        top: -45%;
+        left: -80%;
+        z-index: 5;
+        width: 55%;
+        height: 190%;
+        pointer-events: none;
+        opacity: 0;
+        background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.12) 25%, rgba(255, 255, 255, 0.8) 50%, rgba(185, 255, 244, 0.35) 62%, transparent 100%);
+        filter: blur(3px);
+        transform: rotate(16deg);
+    }
+
+    /* Animación de entrada */
+    .modal-pokemon.show .pokemon-card {
+        animation: abrirCartaPokemon 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .modal-pokemon.show .pokemon-card::after {
+        animation: brilloCartaPokemon 1s ease-out 0.3s forwards;
+    }
+
+    /* Elementos encima de la textura */
+    .modal-pokemon .pokemon-card>* {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* CABECERA */
+    .modal-pokemon .pokemon-card-header {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 7px;
+        min-height: 48px;
+        padding: 2px 5px 8px;
+    }
+
+    .modal-pokemon .pokemon-card-level {
+        align-self: start;
+        padding-top: 5px;
+        color: #354134;
+        font-size: 0.55rem;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+    }
+
+    .modal-pokemon .pokemon-card-name {
+        min-width: 0;
+        margin: 0;
+        overflow: hidden;
+        color: #111b12;
+        font-size: clamp(1.15rem, 4vw, 1.45rem);
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -0.6px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .modal-pokemon .pokemon-hp {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+        color: #182016;
+        font-size: 0.72rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .modal-pokemon .pokemon-hp-number {
+        font-size: 1.45rem;
+        font-weight: 900;
+        line-height: 1;
+    }
+
+    .modal-pokemon .pokemon-type-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 25px;
+        height: 25px;
+        color: #fff;
+        background: var(--carta-color-oscuro);
+        border: 2px solid rgba(255, 255, 255, 0.76);
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25), inset 0 0 5px rgba(255, 255, 255, 0.35);
+        font-size: 0.8rem;
+    }
+
+    /* MARCO DE LA FOTO */
+    .modal-pokemon .pokemon-image-frame {
+        position: relative;
+        padding: 7px;
+        background: linear-gradient(145deg, #d9d9d9, #ffffff 40%, #a4a4a4);
+        border: 2px solid rgba(66, 73, 62, 0.68);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.26), inset 0 0 0 2px rgba(255, 255, 255, 0.72);
+    }
+
+    .modal-pokemon .pokemon-img {
+        display: block;
+        width: 100%;
+        height: 245px;
+        object-fit: contain;
+        object-position: center;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.9), rgba(231, 246, 224, 0.78) 44%, rgba(101, 155, 78, 0.38));
+    }
+
+    /* Etiqueta bajo fotografía */
+    .modal-pokemon .pokemon-image-caption {
+        min-height: 23px;
+        padding: 5px 8px 2px;
+        overflow: hidden;
+        color: #343b34;
+        background: linear-gradient(90deg, rgba(224, 224, 224, 0.9), rgba(255, 255, 255, 0.96), rgba(204, 204, 204, 0.9));
+        border-top: 1px solid rgba(70, 70, 70, 0.28);
+        font-size: 0.61rem;
+        font-style: italic;
+        line-height: 1.2;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* PUESTO */
+    .modal-pokemon .pokemon-position {
+        margin: 8px 2px 6px;
+        padding: 5px 9px;
+        overflow: hidden;
+        color: #263626;
+        background: rgba(255, 255, 255, 0.42);
+        border: 1px solid rgba(58, 85, 44, 0.25);
+        border-radius: 4px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        line-height: 1.2;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* HABILIDADES */
+    .modal-pokemon .pokemon-attacks {
+        padding: 2px 8px 4px;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-pokemon .pokemon-attack {
+        display: grid;
+        grid-template-columns: 57px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 8px;
+        min-height: 54px;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(48, 69, 37, 0.26);
+    }
+
+    .modal-pokemon .pokemon-attack:last-child {
+        border-bottom: 0;
+    }
+
+    .modal-pokemon .attack-energy {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .modal-pokemon .energy-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 23px;
+        height: 23px;
+        color: #fff;
+        background: var(--carta-color-oscuro);
+        border: 2px solid rgba(255, 255, 255, 0.82);
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25), inset 0 0 3px rgba(255, 255, 255, 0.42);
+        font-size: 0.68rem;
+        font-weight: 900;
+    }
+
+    .modal-pokemon .energy-icon.energy-neutral {
+        color: #263238;
+        background: #f5f5f5;
+        border-color: #9fa7a8;
+    }
+
+    .modal-pokemon .attack-info {
+        min-width: 0;
+    }
+
+    .modal-pokemon .attack-name {
+        margin-bottom: 2px;
+        color: #101610;
+        font-size: 0.96rem;
+        font-weight: 900;
+        line-height: 1.1;
+    }
+
+    .modal-pokemon .attack-description {
+        color: rgba(25, 34, 24, 0.76);
+        font-size: 0.62rem;
+        line-height: 1.25;
+    }
+
+    .modal-pokemon .attack-value {
+        color: #111711;
+        font-size: 1rem;
+        font-weight: 900;
+    }
+
+    /* CONTACTO */
+    .modal-pokemon .pokemon-contact {
+        margin: 7px 2px 0;
+        padding: 8px 10px;
+        color: #273126;
+        background: rgba(255, 255, 255, 0.48);
+        border: 1px solid rgba(51, 75, 40, 0.24);
+        border-radius: 5px;
+        font-size: 0.67rem;
+        line-height: 1.45;
+    }
+
+    .modal-pokemon .pokemon-contact-title {
+        margin-bottom: 4px;
+        font-size: 0.62rem;
+        font-weight: 900;
+        letter-spacing: 0.25px;
+        text-transform: uppercase;
+    }
+
+    .modal-pokemon .pokemon-contact-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 5px;
+        min-width: 0;
+    }
+
+    .modal-pokemon .pokemon-contact-row span:last-child {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .modal-pokemon .pokemon-footer {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 7px 4px 0;
+        color: #2e382d;
+        font-size: 0.49rem;
+        line-height: 1.25;
+    }
+
+    .modal-pokemon .pokemon-card-number {
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    /* BOTÓN CERRAR */
+    .modal-pokemon .pokemon-close {
+        position: absolute;
+        top: -13px;
+        right: -13px;
+        z-index: 20;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        padding: 0;
+        color: #fff;
+        background: #252a2d;
+        border: 3px solid #fff;
+        border-radius: 50%;
+        box-shadow: 0 7px 18px rgba(0, 0, 0, 0.38);
+        font-size: 1rem;
+        font-weight: 800;
+        line-height: 1;
+        transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .modal-pokemon .pokemon-close:hover {
+        color: #fff;
+        background: #111;
+        transform: scale(1.08) rotate(5deg);
+    }
+
+    /* Efecto al presionar Ver más */
+    .btn-abrir-efecto {
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .btn-abrir-efecto:active,
+    .btn-abrir-efecto.abriendo-carta {
+        transform: scale(0.92);
+        box-shadow: 0 0 0 5px color-mix(in srgb, var(--tema-primario, #007579) 15%, transparent);
+    }
+
+    /* ANIMACIONES */
+    @keyframes abrirCartaPokemon {
+        0% {
+            opacity: 0;
+            transform:
+                translateY(70px) rotateX(-28deg) rotateZ(-4deg) scale(0.72);
+            filter: blur(8px);
+        }
+
+        55% {
+            opacity: 1;
+            transform:
+                translateY(-8px) rotateX(5deg) rotateZ(1.2deg) scale(1.025);
+            filter: blur(0);
+        }
+
+        78% {
+            transform:
+                translateY(3px) rotateX(-2deg) rotateZ(-0.4deg) scale(0.992);
+        }
+
+        100% {
+            opacity: 1;
+            transform:
+                translateY(0) rotateX(0) rotateZ(0) scale(1);
+            filter: blur(0);
+        }
+    }
+
+    @keyframes brilloCartaPokemon {
+        0% {
+            left: -80%;
+            opacity: 0;
+        }
+
+        20% {
+            opacity: 0.85;
+        }
+
+        100% {
+            left: 135%;
+            opacity: 0;
+        }
+    }
+
+    /* MÓVILES */
+    @media (max-width: 575.98px) {
+        .modal-pokemon .modal-dialog {
+            width: calc(100vw - 24px);
+            max-width: 390px;
+            margin: 12px auto;
+        }
+
+        .modal-pokemon .pokemon-card {
+            padding: 10px;
+            border-width: 7px;
+            border-radius: 19px;
+        }
+
+        .modal-pokemon .pokemon-img {
+            height: 215px;
+        }
+
+        .modal-pokemon .pokemon-card-name {
+            font-size: 1.08rem;
+        }
+
+        .modal-pokemon .pokemon-hp-number {
+            font-size: 1.18rem;
+        }
+
+        .modal-pokemon .pokemon-attack {
+            grid-template-columns: 50px minmax(0, 1fr) auto;
+            min-height: 49px;
+        }
+
+        .modal-pokemon .energy-icon {
+            width: 21px;
+            height: 21px;
+        }
+    }
+
+    /* =========================================================
+   CARTA HOLOGRÁFICA PARA CUMPLEAÑOS DEL MES
+   ========================================================= */
+
+    .modal-pokemon .pokemon-card.es-holografica {
+        border-color: rgba(245, 245, 245, 0.95);
+        box-shadow: 0 28px 65px rgba(0, 0, 0, 0.48), 0 0 18px rgba(0, 229, 255, 0.65), 0 0 30px rgba(255, 0, 221, 0.38), inset 0 0 0 2px rgba(255, 255, 255, 0.92);
+    }
+
+    /* Capa arcoíris holográfica */
+    .modal-pokemon .pokemon-card.es-holografica::before {
+        opacity: 0.42;
+        background: linear-gradient(115deg, transparent 0%, rgba(255, 0, 128, 0.22) 16%, rgba(255, 174, 0, 0.25) 30%, rgba(51, 255, 102, 0.22) 45%, rgba(0, 217, 255, 0.28) 60%, rgba(115, 75, 255, 0.24) 76%, rgba(255, 0, 174, 0.22) 90%, transparent 100%), repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.28) 0, rgba(255, 255, 255, 0.28) 1px, transparent 1px, transparent 7px);
+        background-size: 250% 250%, auto;
+        mix-blend-mode: screen;
+        animation: moverHolografico 3.2s linear infinite;
+    }
+
+    /* Destello más intenso en cartas holográficas */
+    .modal-pokemon .pokemon-card.es-holografica::after {
+        width: 72%;
+
+        background: linear-gradient(100deg, transparent 0%, rgba(255, 80, 190, 0.12) 18%, rgba(255, 255, 255, 0.95) 46%, rgba(67, 238, 255, 0.62) 58%, rgba(255, 221, 88, 0.28) 70%, transparent 100%);
+    }
+
+    /* Marco holográfico de la fotografía */
+    .modal-pokemon .pokemon-card.es-holografica .pokemon-image-frame {
+        border-color: rgba(255, 255, 255, 0.95);
+        background: linear-gradient(120deg, #e4ffff, #ffddf5, #fff8b5, #d6ffd8, #c6ecff, #e8d5ff);
+        background-size: 300% 300%;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3), 0 0 12px rgba(80, 229, 255, 0.65), inset 0 0 0 2px rgba(255, 255, 255, 0.9);
+        animation: moverHolografico 3.4s linear infinite;
+    }
+
+    /* Insignia de cumpleaños */
+    .modal-pokemon .pokemon-card.es-holografica .pokemon-card-level::after {
+        content: " ✨ HOLO";
+        margin-left: 4px;
+        color: #8b247f;
+        font-weight: 900;
+    }
+
+    @keyframes moverHolografico {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .modal-pokemon.show .pokemon-card,
+        .modal-pokemon.show .pokemon-card::after {
+            animation: none !important;
         }
     }
 
@@ -399,6 +927,36 @@
 
                     <div class="persona-divider"></div>
 
+                    <!-- Collapsed summary visible por defecto: nombre, puesto y próximo cumpleaños -->
+                    <div class="persona-summary">
+                        <div class="small">
+                            <strong class="d-block">{{ persona.nombre }}</strong>
+                            <div class="text-muted small mb-2">{{ persona.puesto }}</div>
+                            <div>
+                                <div class="fw-semibold">Próximo cumpleaños</div>
+                                <div class="small text-muted">
+                                    {{ cumple_este_anio.strftime('%d/%m/%Y') }}
+                                    {% if meses == 0 and dias == 0 %}
+                                    — Hoy
+                                    {% else %}
+                                    — en {{ meses }} mes{{ 'es' if meses != 1 else '' }} y {{ dias }} día{{ 's' if dias
+                                    != 1 else '' }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions d-flex justify-content-end mt-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary ver-mas btn-abrir-efecto"
+                                data-nombre="{{ persona.nombre|e }}" data-puesto="{{ persona.puesto|e }}"
+                                data-foto="{{ url_for('uploads', filename=persona.foto) }}"
+                                data-telefono="{{ persona.telefono|e }}" data-correo="{{ persona.correo|e }}"
+                                data-edad="{{ edad }}" data-fecha="{{ cumple_este_anio.strftime('%d/%m/%Y') }}"
+                                data-meses="{{ meses }}" data-dias="{{ dias }}"
+                                data-cumple-mes="{{ 'true' if cumple_mes else 'false' }}" aria-haspopup="dialog"> Ver
+                                más </button>
+                        </div>
+                    </div>
+
                     <div class="persona-info">
 
                         <div class="info-row">
@@ -417,7 +975,7 @@
                             </div>
                         </div>
 
-                        <div class="info-row">
+                        <div class="info-row info-cumple">
                             <span class="info-icon" aria-hidden="true">
                                 🎂
                             </span>
@@ -502,6 +1060,147 @@
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+<!-- Modal tipo carta coleccionable -->
+<div class="modal fade modal-pokemon" id="modalCarta" tabindex="-1" aria-labelledby="modalNombre" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <article class="pokemon-card" id="pokemonCard">
+
+                <button type="button" class="pokemon-close" data-bs-dismiss="modal" aria-label="Cerrar" title="Cerrar">
+                    ✕
+                </button>
+
+                <!-- Encabezado -->
+                <header class="pokemon-card-header">
+                    <span class="pokemon-card-level">
+                        Básico
+                    </span>
+
+                    <h2 class="pokemon-card-name" id="modalNombre">
+                        Nombre
+                    </h2>
+
+                    <div class="pokemon-hp">
+                        <span>PS</span>
+
+                        <span class="pokemon-hp-number" id="modalPuntos">
+                            70
+                        </span>
+
+                        <span class="pokemon-type-icon" id="modalTipoPokemon" aria-label="Tipo de carta"
+                            title="Tipo de carta">
+                            ✦
+                        </span>
+                    </div>
+                </header>
+
+                <!-- Fotografía -->
+                <div class="pokemon-image-frame">
+                    <img src="" alt="" class="pokemon-img" id="modalFoto">
+
+                    <div class="pokemon-image-caption" id="modalFotoDescripcion">
+                        Integrante del equipo Alfa PCS Max
+                    </div>
+                </div>
+
+                <!-- Puesto -->
+                <div class="pokemon-position" id="modalPuesto">
+                    Puesto
+                </div>
+
+                <!-- Habilidades -->
+                <section class="pokemon-attacks" aria-label="Información de la persona">
+                    <div class="pokemon-attack">
+                        <div class="attack-energy" aria-hidden="true">
+                            <span class="energy-icon energy-neutral">
+                                ★
+                            </span>
+                        </div>
+
+                        <div class="attack-info">
+                            <div class="attack-name">
+                                Experiencia
+                            </div>
+
+                            <div class="attack-description">
+                                Edad actual del integrante
+                            </div>
+                        </div>
+
+                        <div class="attack-value" id="modalEdad">
+                            0
+                        </div>
+                    </div>
+
+                    <div class="pokemon-attack">
+                        <div class="attack-energy" aria-hidden="true">
+                            <span class="energy-icon">
+                                ✦
+                            </span>
+
+                            <span class="energy-icon energy-neutral">
+                                ★
+                            </span>
+                        </div>
+
+                        <div class="attack-info">
+                            <div class="attack-name">
+                                Próximo cumpleaños
+                            </div>
+
+                            <div class="attack-description" id="modalTiempoRestante">
+                                Fecha pendiente
+                            </div>
+                        </div>
+
+                        <div class="attack-value" id="modalFechaCorta">
+                            --
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contacto -->
+                <section class="pokemon-contact">
+                    <div class="pokemon-contact-title">
+                        Información de contacto
+                    </div>
+
+                    <div class="pokemon-contact-row">
+                        <span aria-hidden="true">✉</span>
+
+                        <span id="modalCorreo">
+                            Sin correo
+                        </span>
+                    </div>
+
+                    <div class="pokemon-contact-row">
+                        <span aria-hidden="true">☎</span>
+
+                        <span id="modalTelefono">
+                            Sin teléfono
+                        </span>
+                    </div>
+                </section>
+
+                <!-- Pie -->
+                <footer class="pokemon-footer">
+                    <span>
+                        Su talento, experiencia y habilidades fortalecen
+                        al equipo de Alfa PCS Max.
+                    </span>
+
+                    <span class="pokemon-card-number">
+                        APM · <span id="modalNumeroCarta">001</span>/999
+                    </span>
+                </footer>
+
+            </article>
+
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const directorio = document.querySelector('.directorio-personal');
@@ -560,6 +1259,472 @@
                 });
             }, duracionAnimacion);
         }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cards = document.querySelectorAll('.persona-card');
+        const modalEl = document.getElementById('modalCarta');
+
+        cards.forEach(function (card) {
+            card.classList.add('collapsed');
+        });
+
+        if (!modalEl) {
+            return;
+        }
+
+        const bsModal = new bootstrap.Modal(modalEl);
+
+        const elementos = {
+            card: document.getElementById('pokemonCard'),
+            foto: document.getElementById('modalFoto'),
+            nombre: document.getElementById('modalNombre'),
+            puesto: document.getElementById('modalPuesto'),
+            puntos: document.getElementById('modalPuntos'),
+            tipoPokemon: document.getElementById('modalTipoPokemon'),
+            edad: document.getElementById('modalEdad'),
+            fechaCorta: document.getElementById('modalFechaCorta'),
+            tiempoRestante: document.getElementById('modalTiempoRestante'),
+            correo: document.getElementById('modalCorreo'),
+            telefono: document.getElementById('modalTelefono'),
+            numeroCarta: document.getElementById('modalNumeroCarta'),
+            fotoDescripcion: document.getElementById(
+                'modalFotoDescripcion'
+            )
+        };
+
+        /*
+         * Cada tipo tiene sus propios colores e icono.
+         * El tipo se selecciona aleatoriamente cada vez
+         * que se abre una carta.
+         */
+        const tiposPokemon = [
+            {
+                nombre: 'Planta',
+                icono: '🍃',
+                principal: '#79bc43',
+                secundario: '#e4f7a8',
+                oscuro: '#3f7625',
+                borde: '#d6d8d1'
+            },
+            {
+                nombre: 'Fuego',
+                icono: '🔥',
+                principal: '#ef7048',
+                secundario: '#ffd2a8',
+                oscuro: '#a83c23',
+                borde: '#d8d1cb'
+            },
+            {
+                nombre: 'Agua',
+                icono: '💧',
+                principal: '#52a9e6',
+                secundario: '#d7f1ff',
+                oscuro: '#176eaa',
+                borde: '#cfd8de'
+            },
+            {
+                nombre: 'Eléctrico',
+                icono: '⚡',
+                principal: '#f3ca38',
+                secundario: '#fff4a6',
+                oscuro: '#9b7610',
+                borde: '#dad6ca'
+            },
+            {
+                nombre: 'Psíquico',
+                icono: '🔮',
+                principal: '#ae75d5',
+                secundario: '#eedcff',
+                oscuro: '#674092',
+                borde: '#d7d1dc'
+            },
+            {
+                nombre: 'Oscuro',
+                icono: '🌑',
+                principal: '#52505e',
+                secundario: '#bab7c5',
+                oscuro: '#292731',
+                borde: '#c8c6cc'
+            },
+            {
+                nombre: 'Metal',
+                icono: '⚙',
+                principal: '#8ea4ad',
+                secundario: '#dce8ec',
+                oscuro: '#4a6069',
+                borde: '#c8d0d2'
+            },
+            {
+                nombre: 'Dragón',
+                icono: '🐉',
+                principal: '#756bd9',
+                secundario: '#dcd8ff',
+                oscuro: '#433a9d',
+                borde: '#d1cfdd'
+            },
+            {
+                nombre: 'Hada',
+                icono: '✨',
+                principal: '#ed91c1',
+                secundario: '#ffe0f1',
+                oscuro: '#a54278',
+                borde: '#ddd0d7'
+            },
+            {
+                nombre: 'Lucha',
+                icono: '✊',
+                principal: '#c98a55',
+                secundario: '#f4dbc2',
+                oscuro: '#80502d',
+                borde: '#d7cec7'
+            },
+            {
+                nombre: 'Normal',
+                icono: '★',
+                principal: '#b8b59c',
+                secundario: '#eeecd9',
+                oscuro: '#716f59',
+                borde: '#d7d5ca'
+            },
+            {
+                nombre: 'Fantasma',
+                icono: '👻',
+                principal: '#76679d',
+                secundario: '#ddd5ef',
+                oscuro: '#46386d',
+                borde: '#d1ced8'
+            }
+        ];
+
+        function obtenerAleatorio(minimo, maximo) {
+            return Math.floor(
+                Math.random() * (maximo - minimo + 1)
+            ) + minimo;
+        }
+
+        function obtenerTipoAleatorio() {
+            const indice = obtenerAleatorio(
+                0,
+                tiposPokemon.length - 1
+            );
+
+            return tiposPokemon[indice];
+        }
+
+        function aplicarTipoPokemon() {
+            const tipo = obtenerTipoAleatorio();
+
+            elementos.card.style.setProperty(
+                '--carta-color-principal',
+                tipo.principal
+            );
+
+            elementos.card.style.setProperty(
+                '--carta-color-secundario',
+                tipo.secundario
+            );
+
+            elementos.card.style.setProperty(
+                '--carta-color-oscuro',
+                tipo.oscuro
+            );
+
+            elementos.card.style.setProperty(
+                '--carta-borde',
+                tipo.borde
+            );
+
+            if (elementos.tipoPokemon) {
+                elementos.tipoPokemon.textContent = tipo.icono;
+                elementos.tipoPokemon.title =
+                    'Tipo ' + tipo.nombre;
+
+                elementos.tipoPokemon.setAttribute(
+                    'aria-label',
+                    'Tipo ' + tipo.nombre
+                );
+            }
+
+            elementos.card.dataset.tipoCarta = tipo.nombre;
+        }
+
+        /*
+         * Genera PS en múltiplos de 10, entre 50 y 150,
+         * para que tenga una apariencia similar a una carta.
+         */
+        function obtenerPuntosAleatorios() {
+            const opciones = [
+                50,
+                60,
+                70,
+                80,
+                90,
+                100,
+                110,
+                120,
+                130,
+                140,
+                150
+            ];
+
+            const indice = obtenerAleatorio(
+                0,
+                opciones.length - 1
+            );
+
+            return opciones[indice];
+        }
+
+        function construirTiempoRestante(meses, dias) {
+            const mesesNumero =
+                Number.parseInt(meses, 10) || 0;
+
+            const diasNumero =
+                Number.parseInt(dias, 10) || 0;
+
+            if (
+                mesesNumero === 0 &&
+                diasNumero === 0
+            ) {
+                return '¡Cumpleaños hoy! 🎂';
+            }
+
+            const textoMeses =
+                mesesNumero +
+                ' mes' +
+                (mesesNumero !== 1 ? 'es' : '');
+
+            const textoDias =
+                diasNumero +
+                ' día' +
+                (diasNumero !== 1 ? 's' : '');
+
+            if (mesesNumero === 0) {
+                return 'Faltan ' + textoDias;
+            }
+
+            if (diasNumero === 0) {
+                return 'Faltan ' + textoMeses;
+            }
+
+            return (
+                'Faltan ' +
+                textoMeses +
+                ' y ' +
+                textoDias
+            );
+        }
+
+        function obtenerFechaCorta(fecha) {
+            if (!fecha) {
+                return '--';
+            }
+
+            const partes = fecha.split('/');
+
+            if (partes.length < 2) {
+                return fecha;
+            }
+
+            return partes[0] + '/' + partes[1];
+        }
+
+        function asignarTexto(
+            elemento,
+            valor,
+            predeterminado
+        ) {
+            if (!elemento) {
+                return;
+            }
+
+            elemento.textContent =
+                valor || predeterminado;
+        }
+
+        function obtenerNumeroCarta() {
+            return obtenerAleatorio(1, 999);
+        }
+
+        function aplicarEfectoHolografico(esCumpleMes) {
+            elementos.card.classList.remove(
+                'es-holografica'
+            );
+
+            if (esCumpleMes) {
+                elementos.card.classList.add(
+                    'es-holografica'
+                );
+            }
+        }
+
+        function llenarModal(data) {
+            /*
+             * El color y tipo cambian cada vez que se
+             * presiona el botón Ver más.
+             */
+            aplicarTipoPokemon();
+
+            /*
+             * Activa el holográfico solamente cuando
+             * la persona cumple años en el mes actual.
+             */
+            aplicarEfectoHolografico(
+                data.cumpleMes === true
+            );
+
+            elementos.foto.src = data.foto || '';
+
+            elementos.foto.alt =
+                'Fotografía de ' +
+                (data.nombre || 'la persona');
+
+            asignarTexto(
+                elementos.nombre,
+                data.nombre,
+                'Sin nombre'
+            );
+
+            asignarTexto(
+                elementos.puesto,
+                data.puesto,
+                'Integrante del equipo'
+            );
+
+            asignarTexto(
+                elementos.edad,
+                data.edad,
+                '0'
+            );
+
+            /*
+             * PS completamente aleatorio.
+             */
+            asignarTexto(
+                elementos.puntos,
+                String(obtenerPuntosAleatorios()),
+                '70'
+            );
+
+            asignarTexto(
+                elementos.fechaCorta,
+                obtenerFechaCorta(data.fecha),
+                '--'
+            );
+
+            asignarTexto(
+                elementos.tiempoRestante,
+                construirTiempoRestante(
+                    data.meses,
+                    data.dias
+                ),
+                'Fecha pendiente'
+            );
+
+            asignarTexto(
+                elementos.correo,
+                data.correo,
+                'Sin correo registrado'
+            );
+
+            asignarTexto(
+                elementos.telefono,
+                data.telefono,
+                'Sin teléfono registrado'
+            );
+
+            asignarTexto(
+                elementos.fotoDescripcion,
+                (data.nombre || 'Integrante') +
+                ' · ' +
+                (data.puesto || 'Alfa PCS Max'),
+                'Integrante del equipo Alfa PCS Max'
+            );
+
+            asignarTexto(
+                elementos.numeroCarta,
+                String(
+                    obtenerNumeroCarta()
+                ).padStart(3, '0'),
+                '001'
+            );
+        }
+
+        document.querySelectorAll('.ver-mas').forEach(
+            function (boton) {
+                boton.addEventListener(
+                    'click',
+                    function () {
+                        const data = {
+                            nombre:
+                                boton.dataset.nombre || '',
+
+                            puesto:
+                                boton.dataset.puesto || '',
+
+                            foto:
+                                boton.dataset.foto || '',
+
+                            telefono:
+                                boton.dataset.telefono || '',
+
+                            correo:
+                                boton.dataset.correo || '',
+
+                            edad:
+                                boton.dataset.edad || '0',
+
+                            fecha:
+                                boton.dataset.fecha || '',
+
+                            meses:
+                                boton.dataset.meses || '0',
+
+                            dias:
+                                boton.dataset.dias || '0',
+
+                            cumpleMes:
+                                boton.dataset.cumpleMes ===
+                                'true'
+                        };
+
+                        boton.classList.add(
+                            'abriendo-carta'
+                        );
+
+                        llenarModal(data);
+
+                        setTimeout(function () {
+                            bsModal.show();
+                        }, 110);
+
+                        setTimeout(function () {
+                            boton.classList.remove(
+                                'abriendo-carta'
+                            );
+                        }, 350);
+                    }
+                );
+            }
+        );
+
+        modalEl.addEventListener(
+            'hidden.bs.modal',
+            function () {
+                /*
+                 * Quita temporalmente las animaciones para
+                 * que se reproduzcan nuevamente al abrir.
+                 */
+                elementos.card.style.animation = 'none';
+
+                void elementos.card.offsetWidth;
+
+                elementos.card.style.animation = '';
+            }
+        );
     });
 </script>
 

@@ -1,3 +1,6 @@
+{% set activar_tema_automatico = true %}
+{% set tema_forzado = 'normal' %}
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -10,6 +13,140 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        /* VARIABLES GLOBALES DE TEMA */
+        :root,
+        body.tema-normal {
+            --tema-primario: #007579;
+            --tema-secundario: #004b4d;
+            --tema-acento: #00b3a6;
+            --tema-suave: rgba(0, 117, 120, 0.08);
+            --tema-texto: #18202b;
+            --tema-borde: rgba(15, 23, 42, 0.08);
+            --tema-sombra: 0 10px 30px rgba(15, 23, 42, 0.12);
+            --tema-navbar: rgba(255, 255, 255, 0.95);
+            --tema-fondo-overlay: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75));
+            --tema-icono-fondo: #f0f7f7;
+            --tema-card-fondo: rgba(255, 255, 255, 0.98);
+        }
+
+        /* Temas específicos */
+        body.tema-reyes {
+            --tema-primario: #0b2340;
+            --tema-secundario: #8a6cff;
+            --tema-acento: #d4af37;
+            --tema-suave: rgba(212, 175, 55, 0.08);
+            --tema-texto: #0f1724;
+            --tema-borde: rgba(138, 108, 255, 0.12);
+            --tema-sombra: 0 10px 30px rgba(11, 35, 64, 0.18);
+            --tema-navbar: linear-gradient(90deg, #071022, #0b2340);
+            --tema-fondo-overlay: linear-gradient(rgba(3, 10, 20, 0.6), rgba(3, 10, 20, 0.6));
+            --tema-card-fondo: rgba(255, 255, 255, 0.96);
+        }
+
+        body.tema-amor {
+            --tema-primario: #bb0d2b;
+            --tema-secundario: #ff6b9f;
+            --tema-acento: #8b0b2a;
+            --tema-suave: rgba(255, 182, 193, 0.07);
+            --tema-texto: #2b0a0f;
+            --tema-borde: rgba(187, 13, 43, 0.12);
+            --tema-sombra: 0 10px 28px rgba(187, 13, 43, 0.12);
+            --tema-navbar: linear-gradient(90deg, #3b0008, #5a0212);
+            --tema-fondo-overlay: linear-gradient(rgba(64, 0, 0, 0.45), rgba(64, 0, 0, 0.45));
+            --tema-card-fondo: rgba(255, 249, 250, 0.98);
+        }
+
+        body.tema-primavera {
+            --tema-primario: #2a7a3e;
+            --tema-secundario: #f7d24b;
+            --tema-acento: #ff9ab3;
+            --tema-suave: rgba(42, 122, 62, 0.06);
+            --tema-texto: #12321a;
+            --tema-borde: rgba(42, 122, 62, 0.12);
+            --tema-sombra: 0 10px 30px rgba(37, 99, 40, 0.12);
+            --tema-navbar: linear-gradient(90deg, #0b441d, #2a7a3e);
+            --tema-fondo-overlay: linear-gradient(rgba(5, 20, 7, 0.25), rgba(5, 20, 7, 0.25));
+            --tema-card-fondo: rgba(255, 255, 255, 0.98);
+        }
+
+        body.tema-flores {
+            --tema-primario: #e41f7a;
+            --tema-secundario: #8b6bd6;
+            --tema-acento: #1fb37a;
+            --tema-suave: rgba(228, 31, 122, 0.06);
+            --tema-texto: #2b1724;
+            --tema-borde: rgba(139, 107, 214, 0.12);
+            --tema-sombra: 0 10px 28px rgba(139, 107, 214, 0.1);
+            --tema-navbar: linear-gradient(90deg, #2b1220, #611056);
+            --tema-fondo-overlay: linear-gradient(rgba(20, 10, 20, 0.25), rgba(20, 10, 20, 0.25));
+            --tema-card-fondo: rgba(255, 255, 252, 0.98);
+        }
+
+        body.tema-verano {
+            --tema-primario: #00b3c6;
+            --tema-secundario: #7fd1ff;
+            --tema-acento: #ffd166;
+            --tema-suave: rgba(0, 179, 198, 0.06);
+            --tema-texto: #052b33;
+            --tema-borde: rgba(0, 179, 198, 0.12);
+            --tema-sombra: 0 12px 36px rgba(0, 140, 153, 0.12);
+            --tema-navbar: linear-gradient(90deg, #005a66, #008b96);
+            --tema-fondo-overlay: linear-gradient(rgba(0, 30, 40, 0.15), rgba(0, 30, 40, 0.15));
+            --tema-card-fondo: rgba(255, 255, 255, 0.98);
+        }
+
+        body.tema-independencia {
+            --tema-primario: #1e7a4a;
+            --tema-secundario: #ffffff;
+            --tema-acento: #b88628;
+            --tema-suave: rgba(30, 122, 74, 0.06);
+            --tema-texto: #12221a;
+            --tema-borde: rgba(184, 134, 40, 0.12);
+            --tema-sombra: 0 12px 36px rgba(20, 80, 50, 0.12);
+            --tema-navbar: linear-gradient(90deg, #0f3b22, #1e7a4a);
+            --tema-fondo-overlay: linear-gradient(rgba(5, 10, 5, 0.12), rgba(5, 10, 5, 0.12));
+            --tema-card-fondo: rgba(255, 255, 254, 0.98);
+        }
+
+        body.tema-halloween {
+            --tema-primario: #2b0b00;
+            --tema-secundario: #ff8c1a;
+            --tema-acento: #7b2b8f;
+            --tema-suave: rgba(255, 140, 26, 0.06);
+            --tema-texto: #efeef0;
+            --tema-borde: rgba(123, 43, 143, 0.12);
+            --tema-sombra: 0 14px 40px rgba(0, 0, 0, 0.45);
+            --tema-navbar: linear-gradient(90deg, #000, #2b0b00);
+            --tema-fondo-overlay: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55));
+            --tema-card-fondo: rgba(18, 18, 18, 0.95);
+        }
+
+        body.tema-muertos {
+            --tema-primario: #1c0b16;
+            --tema-secundario: #ff8c00;
+            --tema-acento: #d84dac;
+            --tema-suave: rgba(255, 140, 0, 0.06);
+            --tema-texto: #f7f5f2;
+            --tema-borde: rgba(216, 77, 172, 0.12);
+            --tema-sombra: 0 14px 40px rgba(0, 0, 0, 0.5);
+            --tema-navbar: linear-gradient(90deg, #11060a, #1c0b16);
+            --tema-fondo-overlay: linear-gradient(rgba(10, 5, 8, 0.55), rgba(10, 5, 8, 0.55));
+            --tema-card-fondo: rgba(255, 250, 248, 0.97);
+        }
+
+        body.tema-navidad {
+            --tema-primario: #0b3b1f;
+            --tema-secundario: #9a1515;
+            --tema-acento: #d4af37;
+            --tema-suave: rgba(148, 21, 21, 0.06);
+            --tema-texto: #0b1b12;
+            --tema-borde: rgba(148, 21, 21, 0.12);
+            --tema-sombra: 0 12px 36px rgba(10, 40, 20, 0.12);
+            --tema-navbar: linear-gradient(90deg, #071c10, #0b3b1f);
+            --tema-fondo-overlay: linear-gradient(rgba(5, 10, 5, 0.12), rgba(5, 10, 5, 0.12));
+            --tema-card-fondo: rgba(255, 255, 255, 0.98);
+        }
+
         .card {
             position: relative;
             border: 10px solid transparent;
@@ -57,8 +194,8 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
-                url('/static/bg.png') no-repeat center center fixed;
+            color: var(--tema-texto);
+            background: var(--tema-fondo-overlay), url('/static/bg.png') no-repeat center center fixed;
             background-size: cover;
         }
 
@@ -80,11 +217,102 @@
             justify-content: center;
             align-items: center;
         }
+
+        /* NAVBAR Y Z-INDEX PARA QUE ESTÉ POR ENCIMA DE DECORACIONES */
+        .navbar {
+            position: relative;
+            z-index: 20;
+            background: var(--tema-navbar) !important;
+            transition: background 0.35s ease, box-shadow 0.35s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .navbar .nav-link {
+            color: color-mix(in srgb, var(--tema-texto) 80%, black 20%);
+            transition: color 0.2s ease, transform 0.15s ease;
+        }
+
+        .navbar .nav-link:hover {
+            transform: translateY(-2px);
+            color: var(--tema-acento);
+        }
+
+        .decoracion-temporada {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .decoracion-temporada .particula {
+            position: absolute;
+            font-size: 14px;
+            opacity: 0.9;
+            transform: translate3d(0, 0, 0);
+            will-change: transform, opacity;
+            transition: transform 6s linear, opacity 3s ease-in;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
+            user-select: none;
+        }
+
+        @keyframes particulaFloat {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-120vh) scale(0.9);
+                opacity: 0;
+            }
+        }
+
+        /* reducir movimiento */
+        @media (prefers-reduced-motion: reduce) {
+            .decoracion-temporada .particula {
+                animation: none !important;
+                opacity: 0.9;
+            }
+        }
     </style>
 </head>
 
-<body
+{% set mes_actual = now().month %}
+
+{% if activar_tema_automatico %}
+{% if mes_actual == 1 %}
+{% set tema_actual = 'reyes' %}
+{% elif mes_actual == 2 %}
+{% set tema_actual = 'amor' %}
+{% elif mes_actual in [3, 4] %}
+{% set tema_actual = 'primavera' %}
+{% elif mes_actual == 5 %}
+{% set tema_actual = 'flores' %}
+{% elif mes_actual in [6, 7, 8] %}
+{% set tema_actual = 'verano' %}
+{% elif mes_actual == 9 %}
+{% set tema_actual = 'independencia' %}
+{% elif mes_actual == 10 %}
+{% set tema_actual = 'halloween' %}
+{% elif mes_actual == 11 %}
+{% set tema_actual = 'muertos' %}
+{% elif mes_actual == 12 %}
+{% set tema_actual = 'navidad' %}
+{% else %}
+{% set tema_actual = 'normal' %}
+{% endif %}
+{% else %}
+{% set tema_actual = tema_forzado %}
+{% endif %}
+
+<body class="tema-{{ tema_actual }}"
     style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('/static/bg.png') no-repeat center center fixed; background-size: cover;">
+    <div class="decoracion-temporada" aria-hidden="true"></div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <div class="navbar-brand d-flex align-items-center">
@@ -150,6 +378,73 @@
             setTimeout(() => alert.remove(), 300); // remueve del DOM luego del fade
         }
     }, 2000); // 2 segundos
+</script>
+
+<script>
+    (function () {
+        // Partículas temáticas ligeras dentro de .decoracion-temporada
+        document.addEventListener('DOMContentLoaded', function () {
+            const decor = document.querySelector('.decoracion-temporada');
+            if (!decor) return;
+
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                return; // respetar preferencia de usuario
+            }
+
+            const cls = document.body.className || '';
+            const m = cls.match(/tema-([a-z]+)/);
+            const tema = m ? m[1] : 'normal';
+
+            const map = {
+                independencia: ['★', '◆', '●'],
+                halloween: ['🦇', '✦', '●'],
+                muertos: ['🌼', '✦', '•'],
+                navidad: ['❄', '✦', '•'],
+                amor: ['♥', '♡'],
+                primavera: ['✿', '•', '❀'],
+                flores: ['✿', '❁', '•'],
+                reyes: ['✶', '👑', '✦'],
+                verano: ['☀', '◦', '●'],
+                normal: ['•', '◆']
+            };
+
+            const pool = map[tema] || map.normal;
+
+            // Count based on viewport — keep it small on mobile
+            let count = Math.max(8, Math.min(28, Math.floor(window.innerWidth / 120)));
+            if (window.innerWidth < 576) count = Math.max(6, Math.floor(count / 3));
+            count = Math.min(count, 35);
+
+            for (let i = 0; i < count; i++) {
+                const span = document.createElement('span');
+                span.className = 'particula';
+                const emoji = pool[Math.floor(Math.random() * pool.length)];
+                span.textContent = emoji;
+
+                const size = 10 + Math.floor(Math.random() * 18); // 10-28px
+                span.style.fontSize = size + 'px';
+                span.style.left = Math.random() * 100 + '%';
+                span.style.top = (60 + Math.random() * 40) + '%';
+                span.style.opacity = (0.35 + Math.random() * 0.75).toString();
+                span.style.transform = 'translateY(0)';
+
+                const dur = 6 + Math.random() * 8; // seconds
+                span.style.animation = 'particulaFloat ' + dur.toFixed(1) + 's linear forwards';
+
+                // slight rotation
+                span.style.rotate = (Math.random() * 80 - 40) + 'deg';
+
+                decor.appendChild(span);
+
+                // remove after animation
+                (function (node, duration) {
+                    setTimeout(function () {
+                        try { node.remove(); } catch (e) { }
+                    }, (duration + 0.5) * 1000);
+                })(span, dur);
+            }
+        });
+    })();
 </script>
 
 </html>
