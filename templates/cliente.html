@@ -1,55 +1,566 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="row fade-in">
-    {% for persona in personas %}
-    {% set nacimiento = persona.fecha_nacimiento | todatetime %}
-    {% set hoy = now() %}
-    {% set edad = hoy.year - nacimiento.year - ((hoy.month, hoy.day) < (nacimiento.month, nacimiento.day)) %} {% set
-        cumple_este_anio=nacimiento.replace(year=hoy.year) %} {% if cumple_este_anio < hoy %} {% set
-        cumple_este_anio=cumple_este_anio.replace(year=hoy.year + 1) %} {% endif %} {% set
-        dias_restantes=(cumple_este_anio - hoy).days %} {% set meses=dias_restantes // 30 %} {% set dias=dias_restantes
-        % 30 %} {% set cumple_mes=nacimiento.month==hoy.month %} <div
-        class="col-md-4 mb-4 {{ 'cumple-mes' if cumple_mes }}">
-        <div class="card h-100">
-            <img src="{{ url_for('uploads', filename=persona.foto) }}" class="card-img-top object-fit-contain"
-                style="height: 300px;" alt="{{ persona.nombre }}">
-            <div class="card-body">
-                <h5 class="fw-bold">
-                    {{ persona.nombre }}
-                    {% if hoy.month == nacimiento.month and hoy.day == nacimiento.day %}
-                    🎂
-                    {% endif %}
-                </h5>
-                <p class="card-text">
-                    <strong>Edad:</strong> {{ edad }} años<br>
-                    <strong>Próximo cumpleaños:</strong> {{ cumple_este_anio.strftime('%d/%m/%Y') }} —
-                    {% if meses == 0 and dias == 0 %}
-                    🎉 Hoy 🎉
-                    {% else %}
-                    en {{ meses }} mes{{ 'es' if meses != 1 }} y {{ dias }} día{{ 's' if dias != 1 }}
-                    {% endif %}
-                    <br>
-                    <strong>Teléfono:</strong> {{ persona.telefono }}<br>
-                    <strong>Correo:</strong> {{ persona.correo }}<br>
-                    <strong>Puesto:</strong> {{ persona.puesto }}
-                </p>
-            </div>
+
+<style>
+    .directorio-personal {
+        padding: 28px 10px 45px;
+    }
+
+    /* COLUMNAS */
+    .directorio-personal .persona-column {
+        opacity: 0;
+    }
+
+    /* CARD PRINCIPAL */
+    .directorio-personal .persona-card {
+        --tiempo-espera: 0ms;
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+        opacity: 0;
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.06);
+        clip-path: inset(0 0 100% 0 round 18px);
+        filter: saturate(0.2) brightness(1.15);
+        transform: translateY(25px) scale(0.97);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .directorio-personal.animar-cards .persona-column {
+        opacity: 1;
+    }
+
+    .directorio-personal.animar-cards .persona-card {
+        animation: pintarCard 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        animation-delay: var(--tiempo-espera);
+    }
+
+    .directorio-personal .persona-card:hover {
+        transform: translateY(-7px);
+        border-color: rgba(0, 117, 120, 0.25);
+        box-shadow: 0 20px 42px rgba(15, 23, 42, 0.18), 0 5px 12px rgba(15, 23, 42, 0.08);
+    }
+
+    /* LÍNEA SUPERIOR */
+    .directorio-personal .persona-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 4;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, #00666b 0%, #00999f 50%, #003f43 100%);
+    }
+
+    /* BRILLO DURANTE LA ANIMACIÓN */
+    .directorio-personal .persona-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -120%;
+        z-index: 10;
+        width: 65%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0;
+        background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.18) 30%, rgba(255, 255, 255, 0.72) 50%, rgba(255, 255, 255, 0.18) 70%, transparent 100%);
+        transform: skewX(-18deg);
+    }
+
+    .directorio-personal.animar-cards .persona-card::after {
+        animation: brilloCard 0.75s ease-out forwards;
+        animation-delay: calc(var(--tiempo-espera) + 120ms);
+    }
+
+    /* FOTO */
+    .directorio-personal .persona-foto-wrapper {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+        background: radial-gradient(circle at top, #f8fafc 0%, #e9eef2 100%);
+    }
+
+    .directorio-personal .persona-foto {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        transition: transform 0.45s ease;
+    }
+
+    .directorio-personal .persona-card:hover .persona-foto {
+        transform: scale(1.025);
+    }
+
+    .directorio-personal .persona-foto-wrapper::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 55px;
+        pointer-events: none;
+        background: linear-gradient(to bottom, transparent, rgba(15, 23, 42, 0.08));
+    }
+
+    /* CONTENIDO */
+    .directorio-personal .persona-body {
+        display: flex;
+        flex-direction: column;
+        padding: 19px 20px 21px;
+    }
+
+    .directorio-personal .persona-nombre {
+        margin: 0;
+        color: #18202b;
+        font-size: 1.08rem;
+        font-weight: 750;
+        line-height: 1.3;
+        letter-spacing: -0.2px;
+    }
+
+    .directorio-personal .persona-puesto {
+        display: inline-flex;
+        align-items: center;
+        align-self: flex-start;
+        max-width: 100%;
+        margin-top: 9px;
+        padding: 6px 11px;
+        overflow: hidden;
+        color: #00666b;
+        background: rgba(0, 117, 120, 0.09);
+        border: 1px solid rgba(0, 117, 120, 0.12);
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 650;
+        line-height: 1.25;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .directorio-personal .persona-divider {
+        width: 100%;
+        height: 1px;
+        margin: 15px 0 12px;
+        background: linear-gradient(90deg, rgba(0, 117, 120, 0.35), rgba(148, 163, 184, 0.16), transparent);
+    }
+
+    /* INFORMACIÓN */
+    .directorio-personal .persona-info {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        margin: 0;
+    }
+
+    .directorio-personal .info-row {
+        display: grid;
+        grid-template-columns: 33px minmax(0, 1fr);
+        align-items: flex-start;
+        gap: 9px;
+        min-width: 0;
+    }
+
+    .directorio-personal .info-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 31px;
+        height: 31px;
+        color: #00666b;
+        background: #f0f7f7;
+        border: 1px solid rgba(0, 117, 120, 0.1);
+        border-radius: 9px;
+        font-size: 0.88rem;
+        line-height: 1;
+    }
+
+    .directorio-personal .info-content {
+        min-width: 0;
+        padding-top: 1px;
+        color: #4b5563;
+        font-size: 0.89rem;
+        line-height: 1.36;
+        word-break: break-word;
+    }
+
+    .directorio-personal .info-label {
+        display: block;
+        margin-bottom: 1px;
+        color: #1f2937;
+        font-size: 0.75rem;
+        font-weight: 750;
+        letter-spacing: 0.18px;
+        text-transform: uppercase;
+    }
+
+    .directorio-personal .info-value {
+        color: #4b5563;
+        font-weight: 450;
+    }
+
+    .directorio-personal .info-value a {
+        color: #3f4a59;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .directorio-personal .info-value a:hover {
+        color: #007579;
+        text-decoration: underline;
+    }
+
+    /* CUMPLEAÑOS */
+    .directorio-personal .cumple-card {
+        border-color: rgba(225, 166, 28, 0.52);
+        box-shadow: 0 15px 38px rgba(180, 124, 0, 0.16), 0 3px 10px rgba(15, 23, 42, 0.07);
+    }
+
+    .directorio-personal .cumple-card::before {
+        height: 6px;
+        background: linear-gradient(90deg, #d99b12, #ffd76a, #e7a91d);
+    }
+
+    .directorio-personal .cumple-insignia {
+        position: absolute;
+        top: 17px;
+        right: 14px;
+        z-index: 5;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 10px;
+        color: #684b00;
+        background: rgba(255, 244, 203, 0.96);
+        border: 1px solid rgba(211, 154, 20, 0.35);
+        border-radius: 50px;
+        box-shadow: 0 5px 16px rgba(74, 53, 0, 0.12);
+        font-size: 0.74rem;
+        font-weight: 750;
+        backdrop-filter: blur(4px);
+    }
+
+    .directorio-personal .cumple-hoy {
+        color: #875e00;
+        font-weight: 750;
+    }
+
+    /* ANIMACIONES */
+    @keyframes pintarCard {
+        0% {
+            clip-path: inset(0 0 100% 0 round 18px);
+            opacity: 0;
+            transform: translateY(25px) scale(0.97);
+            filter: saturate(0.2) brightness(1.15);
+        }
+
+        35% {
+            opacity: 1;
+        }
+
+        100% {
+            clip-path: inset(0 0 0 0 round 18px);
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: saturate(1) brightness(1);
+        }
+    }
+
+    @keyframes brilloCard {
+        0% {
+            left: -120%;
+            opacity: 0;
+        }
+
+        20% {
+            opacity: 1;
+        }
+
+        100% {
+            left: 160%;
+            opacity: 0;
+        }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 991.98px) {
+        .directorio-personal {
+            padding-top: 20px;
+        }
+
+        .directorio-personal .persona-foto-wrapper {
+            height: 280px;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .directorio-personal {
+            padding-right: 4px;
+            padding-left: 4px;
+        }
+
+        .directorio-personal .persona-foto-wrapper {
+            height: 330px;
+        }
+
+        .directorio-personal .persona-card:hover {
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .directorio-personal .persona-foto-wrapper {
+            height: 290px;
+        }
+
+        .directorio-personal .persona-body {
+            padding: 17px;
+        }
+
+        .directorio-personal .persona-nombre {
+            font-size: 1rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .directorio-personal .persona-column,
+        .directorio-personal .persona-card {
+            clip-path: none;
+            opacity: 1;
+            transform: none;
+            filter: none;
+            animation: none !important;
+        }
+
+        .directorio-personal .persona-card::after {
+            display: none;
+        }
+    }
+</style>
+
+<div class="directorio-personal">
+    <div class="row fade-in">
+
+        {% for persona in personas %}
+
+        {% set nacimiento = persona.fecha_nacimiento | todatetime %}
+        {% set hoy = now() %}
+
+        {% set edad =
+        hoy.year
+        - nacimiento.year
+        - ((hoy.month, hoy.day) < (nacimiento.month, nacimiento.day)) %} {% set
+            cumple_este_anio=nacimiento.replace(year=hoy.year) %} {% if cumple_este_anio < hoy %} {% set
+            cumple_este_anio=cumple_este_anio.replace(year=hoy.year + 1) %} {% endif %} {% set
+            dias_restantes=(cumple_este_anio - hoy).days %} {% set meses=dias_restantes // 30 %} {% set
+            dias=dias_restantes % 30 %} {% set cumple_mes=nacimiento.month==hoy.month %} {% set
+            cumple_hoy=hoy.month==nacimiento.month and hoy.day==nacimiento.day %} <div class="col-md-4 mb-4 persona-column
+                {{ 'cumple-mes' if cumple_mes }}">
+            <article class="card persona-card
+                    {{ 'cumple-card' if cumple_mes }}">
+                {% if cumple_mes %}
+                <div class="cumple-insignia">
+                    <span>🎉</span>
+
+                    <span>
+                        {% if cumple_hoy %}
+                        Cumpleaños hoy
+                        {% else %}
+                        Cumple este mes
+                        {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+
+                <div class="persona-foto-wrapper">
+                    <img src="{{ url_for('uploads', filename=persona.foto) }}" class="persona-foto"
+                        alt="Fotografía de {{ persona.nombre }}" loading="lazy">
+                </div>
+
+                <div class="card-body persona-body">
+                    <h5 class="persona-nombre">
+                        {{ persona.nombre }}
+
+                        {% if cumple_hoy %}
+                        <span role="img" aria-label="Cumpleaños" title="Cumpleaños">
+                            🎂
+                        </span>
+                        {% endif %}
+                    </h5>
+
+                    <div class="persona-puesto" title="{{ persona.puesto }}">
+                        {{ persona.puesto }}
+                    </div>
+
+                    <div class="persona-divider"></div>
+
+                    <div class="persona-info">
+
+                        <div class="info-row">
+                            <span class="info-icon" aria-hidden="true">
+                                👤
+                            </span>
+
+                            <div class="info-content">
+                                <span class="info-label">
+                                    Edad
+                                </span>
+
+                                <span class="info-value">
+                                    {{ edad }} años
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <span class="info-icon" aria-hidden="true">
+                                🎂
+                            </span>
+
+                            <div class="info-content">
+                                <span class="info-label">
+                                    Próximo cumpleaños
+                                </span>
+
+                                <span class="info-value">
+                                    {{ cumple_este_anio.strftime('%d/%m/%Y') }}
+
+                                    {% if meses == 0 and dias == 0 %}
+                                    <span class="cumple-hoy">
+                                        — Hoy
+                                    </span>
+                                    {% else %}
+                                    — en
+                                    {{ meses }}
+                                    mes{{ 'es' if meses != 1 else '' }}
+                                    y
+                                    {{ dias }}
+                                    día{{ 's' if dias != 1 else '' }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <span class="info-icon" aria-hidden="true">
+                                ☎
+                            </span>
+
+                            <div class="info-content">
+                                <span class="info-label">
+                                    Teléfono
+                                </span>
+
+                                <span class="info-value">
+                                    <a href="tel:{{ persona.telefono }}" title="Llamar a {{ persona.nombre }}">
+                                        {{ persona.telefono }}
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <span class="info-icon" aria-hidden="true">
+                                ✉
+                            </span>
+
+                            <div class="info-content">
+                                <span class="info-label">
+                                    Correo
+                                </span>
+
+                                <span class="info-value">
+                                    <a href="mailto:{{ persona.correo }}" title="Enviar correo a {{ persona.nombre }}">
+                                        {{ persona.correo }}
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </article>
+    </div>
+
+    {% else %}
+
+    <div class="col-12">
+        <div class="alert alert-light text-center shadow-sm">
+            No hay personas registradas para mostrar.
         </div>
+    </div>
+
+    {% endfor %}
+
 </div>
-{% endfor %}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <script>
-    window.addEventListener('load', () => {
-        const cumpleCards = document.querySelectorAll('.cumple-mes');
-        if (cumpleCards.length) {
-            confetti({
-                particleCount: 100,
-                spread: 80,
-                origin: { y: 0.6 }
+    document.addEventListener('DOMContentLoaded', function () {
+        const directorio = document.querySelector('.directorio-personal');
+
+        const cards = document.querySelectorAll(
+            '.directorio-personal .persona-card'
+        );
+
+        if (!directorio || !cards.length) {
+            return;
+        }
+
+        /*
+         * Cada card comienza 220 milisegundos
+         * después de la card anterior.
+         */
+        cards.forEach(function (card, index) {
+            const retraso = index * 220;
+
+            card.style.setProperty(
+                '--tiempo-espera',
+                retraso + 'ms'
+            );
+        });
+
+        /*
+         * Se esperan dos frames para que el navegador
+         * primero muestre el estado oculto y después anime.
+         */
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                directorio.classList.add('animar-cards');
             });
+        });
+
+        const cumpleCards = document.querySelectorAll('.cumple-mes');
+
+        if (
+            cumpleCards.length &&
+            typeof confetti === 'function'
+        ) {
+            const duracionAnimacion =
+                ((cards.length - 1) * 220) + 900;
+
+            setTimeout(function () {
+                confetti({
+                    particleCount: 110,
+                    spread: 85,
+                    startVelocity: 35,
+                    gravity: 0.9,
+                    ticks: 230,
+                    origin: {
+                        x: 0.5,
+                        y: 0.55
+                    }
+                });
+            }, duracionAnimacion);
         }
     });
 </script>
+
 {% endblock %}
