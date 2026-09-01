@@ -304,5 +304,19 @@
       "eab84e6d0ff5488bb1228b4f7162279f_IMG_4246.JPEG"
     ],
     "visible": true
+  },
+  {
+    "id": "bd280ad65c6d4c24a3f0ea21552139a5",
+    "nombre": "Eduardo Gabriel Galindo Romero",
+    "fecha_nacimiento": "1999-11-17",
+    "sexo": "Masculino",
+    "puesto": "Programador fullstack",
+    "telefono": "3125943527",
+    "correo": "gabriel.galindo@alfapcsmax.com",
+    "foto": "89b3e2858e8e468f87ac518ce2ef673e_IMG_4246.JPEG",
+    "fotos_previas": [
+      "89b3e2858e8e468f87ac518ce2ef673e_IMG_4246.JPEG"
+    ],
+    "visible": true
   }
 ]
